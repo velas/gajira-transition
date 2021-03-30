@@ -17,38 +17,55 @@ module.exports = class {
   async execute () {
     const { argv } = this
 
-    const issueId = argv.issue
-    const { transitions } = await this.Jira.getIssueTransitions(issueId)
+    // const issueId = argv.issue;
+    const issuesIDs = this.argv.issue.split(', ');
+    for (let i = 0; i < issuesIDs.length; i++) {
+      let issueId = issuesIDs[i];
+      console.log(`Current issue ID: ${issueId}`);
+      issueId = makeProperIssueID(issueId);
 
-    const transitionToApply = _.find(transitions, (t) => {
-      if (t.id === argv.transitionId) return true
-      if (t.name.toLowerCase() === argv.transition.toLowerCase()) return true
-    })
 
-    if (!transitionToApply) {
-      console.log('Please specify transition name or transition id.')
-      console.log('Possible transitions:')
-      transitions.forEach((t) => {
-        console.log(`{ id: ${t.id}, name: ${t.name} } transitions issue to '${t.to.name}' status.`)
+      const { transitions } = await this.Jira.getIssueTransitions(issueId)
+
+      const transitionToApply = _.find(transitions, (t) => {
+        if (t.id === argv.transitionId) return true
+        if (t.name.toLowerCase() === argv.transition.toLowerCase()) return true
       })
-
-      return
+  
+      if (!transitionToApply) {
+        console.log('Please specify transition name or transition id.')
+        console.log('Possible transitions:')
+        transitions.forEach((t) => {
+          console.log(`{ id: ${t.id}, name: ${t.name} } transitions issue to '${t.to.name}' status.`)
+        })
+  
+        return
+      }
+  
+      console.log(`Selected transition:${JSON.stringify(transitionToApply, null, 4)}`)
+  
+      await this.Jira.transitionIssue(issueId, {
+        transition: {
+          id: transitionToApply.id,
+        },
+      })
+  
+      const transitionedIssue = await this.Jira.getIssue(issueId)
+  
+      // console.log(`transitionedIssue:${JSON.stringify(transitionedIssue, null, 4)}`)
+      console.log(`Changed ${issueId} status to : ${_.get(transitionedIssue, 'fields.status.name')} .`)
+      console.log(`Link to issue: ${this.config.baseUrl}/browse/${issueId}`)
     }
-
-    console.log(`Selected transition:${JSON.stringify(transitionToApply, null, 4)}`)
-
-    await this.Jira.transitionIssue(issueId, {
-      transition: {
-        id: transitionToApply.id,
-      },
-    })
-
-    const transitionedIssue = await this.Jira.getIssue(issueId)
-
-    // console.log(`transitionedIssue:${JSON.stringify(transitionedIssue, null, 4)}`)
-    console.log(`Changed ${issueId} status to : ${_.get(transitionedIssue, 'fields.status.name')} .`)
-    console.log(`Link to issue: ${this.config.baseUrl}/browse/${issueId}`)
 
     return {}
   }
+}
+
+function makeProperIssueID(issue) {
+  let issueId = issue.toUpperCase();
+  issueId.replace(' ', '-');
+  if (!issueId.includes('VTX-')) {
+    issueId = 'VTX-' + issueId;
+  }
+  return issueId;
 }
