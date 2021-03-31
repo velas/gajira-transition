@@ -31,13 +31,11 @@ module.exports = class {
       console.log(JSON.stringify('---------------------------'));
       console.log(issueStatus);
 
-      const notUpdatedStatuses = ['done', 'won\'t do', 'to do'];
-      if (notUpdatedStatuses.includes(issueStatus.toLowerCase())) {
+      const updatedStatuses = ['in progress'];
+      if (updatedStatuses.includes(issueStatus.toLowerCase())) {
         console.log(`Issue ${issueId} is in "${issueStatus}" status.
-        Statuses ${notUpdatedStatuses} are not updated.`)
+        Only issues which are in ${updatedStatuses} are updated to prevent misunderstanding.`)
       }
-      // ------
-
 
       const { transitions } = await this.Jira.getIssueTransitions(issueId);
 
