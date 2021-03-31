@@ -27,8 +27,15 @@ module.exports = class {
 
       // ------
       const issue = await this.Jira.getIssue(issueId);
+      const issueStatus = issue.fields.status.name;
       console.log(JSON.stringify('---------------------------'));
-      console.log(JSON.stringify(issue));
+      console.log(issueStatus);
+
+      const notUpdatedStatuses = ['done', 'won\'t do', 'to do'];
+      if (notUpdatedStatuses.includes(issueStatus)) {
+        console.log(`Issue ${issueId} is in "${issueStatus}" status.
+        Statuses ${notUpdatedStatuses} are not updated.`)
+      }
       // ------
 
 
