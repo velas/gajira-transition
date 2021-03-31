@@ -27,9 +27,8 @@ module.exports = class {
 
       // ------
       const { issue } = await this.Jira.getIssue(issueId);
-      core.info(JSON.stringify('---------------------------'));
-      core.info(JSON.stringify(issue));
-      core.info(JSON.stringify(issue));
+      console.log(JSON.stringify('---------------------------'));
+      console.log(JSON.stringify(issue));
       // ------
 
 
