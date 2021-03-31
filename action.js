@@ -67,7 +67,7 @@ module.exports = class {
       console.log(`Changed ${issueId} status to : ${_.get(transitionedIssue, 'fields.status.name')} .`)
       console.log(`Link to issue: ${this.config.baseUrl}/browse/${issueId}`)
     }
-
+    console.log(`End of current issue processing -------------`);
     return {}
   }
 }
