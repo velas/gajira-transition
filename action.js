@@ -61,7 +61,7 @@ module.exports = class {
         transition: {
           id: transitionToApply.id,
         },
-      })
+      });
   
       const transitionedIssue = await this.Jira.getIssue(issueId)
   
