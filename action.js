@@ -32,7 +32,7 @@ module.exports = class {
       console.log(issueStatus);
 
       const notUpdatedStatuses = ['done', 'won\'t do', 'to do'];
-      if (notUpdatedStatuses.includes(issueStatus)) {
+      if (notUpdatedStatuses.includes(issueStatus.toLowerCase())) {
         console.log(`Issue ${issueId} is in "${issueStatus}" status.
         Statuses ${notUpdatedStatuses} are not updated.`)
       }
