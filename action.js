@@ -15,19 +15,21 @@ module.exports = class {
   }
 
   async execute () {
-    const { argv } = this
+    const { argv } = this;
 
     // const issueId = argv.issue;
     const issuesIDs = this.argv.issue.split(', ');
+    let issuesSummaries = '';
     for (let i = 0; i < issuesIDs.length; i++) {
       let issueId = issuesIDs[i];
       console.log(`Current issue ID: ${issueId}`);
       issueId = makeProperIssueID(issueId);
 
-
       const issue = await this.Jira.getIssue(issueId);
+      console.log(issue.fields.summary);
+      issuesSummaries += `[${issueId}] ${issue.fields.summary}; `;
       const issueStatus = issue.fields.status.name;
-      console.log(JSON.stringify(issue.fields, null, 2));
+
       console.log(`Issue current status: ${issueStatus}`);
 
       const updatedStatuses = ['in progress'];
@@ -50,7 +52,6 @@ module.exports = class {
         transitions.forEach((t) => {
           console.log(`{ id: ${t.id}, name: ${t.name} } transitions issue to '${t.to.name}' status.`)
         })
-  
         return
       }
   
@@ -69,6 +70,7 @@ module.exports = class {
       console.log(`Link to issue: ${this.config.baseUrl}/browse/${issueId}`)
     }
     console.log(`End of current issue processing -------------`);
+    issuesSummaries.trim();
     return {}
   }
 }
