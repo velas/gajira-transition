@@ -27,6 +27,7 @@ module.exports = class {
 
       const issue = await this.Jira.getIssue(issueId);
       const issueStatus = issue.fields.status.name;
+      console.log(JSON.stringify(issue.fields, null, 2));
       console.log(`Issue current status: ${issueStatus}`);
 
       const updatedStatuses = ['in progress'];
