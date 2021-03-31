@@ -25,7 +25,13 @@ module.exports = class {
       issueId = makeProperIssueID(issueId);
 
 
-      const { transitions } = await this.Jira.getIssueTransitions(issueId)
+      // ------
+      const { issue } = await this.Jira.getIssue(issueId);
+      console.log(JSON.stringify(issue));
+      // ------
+
+
+      const { transitions } = await this.Jira.getIssueTransitions(issueId);
 
       const transitionToApply = _.find(transitions, (t) => {
         if (t.id === argv.transitionId) return true
