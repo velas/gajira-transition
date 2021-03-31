@@ -1,6 +1,6 @@
-const _ = require('lodash')
-const Jira = require('./common/net/Jira')
-
+const _ = require('lodash');
+const Jira = require('./common/net/Jira');
+const core = require('@actions/core');
 module.exports = class {
   constructor ({ githubEvent, argv, config }) {
     this.Jira = new Jira({
@@ -26,7 +26,7 @@ module.exports = class {
       issueId = makeProperIssueID(issueId);
 
       const issue = await this.Jira.getIssue(issueId);
-      console.log(issue.fields.summary);
+      console.log(`Issue summary: ${issue.fields.summary}`);
       issuesSummaries += `[${issueId}] ${issue.fields.summary}; `;
       const issueStatus = issue.fields.status.name;
 
@@ -71,6 +71,7 @@ module.exports = class {
     }
     console.log(`End of current issue processing -------------`);
     issuesSummaries.trim();
+    core.setOutput('summary', issuesSummaries);
     return {}
   }
 }
