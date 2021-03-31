@@ -27,7 +27,7 @@ module.exports = class {
 
       const issue = await this.Jira.getIssue(issueId);
       console.log(`Issue summary: ${issue.fields.summary}`);
-      issuesSummaries += `[${issueId}] ${issue.fields.summary}; `;
+      issuesSummaries += `[${issueId}] ${issue.fields.summary}\n`;
       const issueStatus = issue.fields.status.name;
 
       console.log(`Issue current status: ${issueStatus}`);
@@ -70,7 +70,6 @@ module.exports = class {
       console.log(`Link to issue: ${this.config.baseUrl}/browse/${issueId}`)
     }
     console.log(`End of current issue processing -------------`);
-    issuesSummaries.trim();
     core.setOutput('summary', issuesSummaries);
     return {}
   }
