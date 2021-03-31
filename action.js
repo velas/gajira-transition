@@ -33,7 +33,7 @@ module.exports = class {
       if (!updatedStatuses.includes(issueStatus.toLowerCase())) {
         console.log(`Issue ${issueId} is in "${issueStatus}" status.
         Only issues which are in ${updatedStatuses} are updated to prevent misunderstanding.`)
-        return;
+        continue;
       }
 
       const { transitions } = await this.Jira.getIssueTransitions(issueId);
