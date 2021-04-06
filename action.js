@@ -27,7 +27,7 @@ module.exports = class {
 
       const issue = await this.Jira.getIssue(issueId);
       console.log(`Issue summary: ${issue.fields.summary}`);
-      issuesSummaries += `[${issueId}](https://velasnetwork.atlassian.net/browse/${issueId}) ${issue.fields.summary}\n`;
+      issuesSummaries += `[${issueId}](https://velasnetwork.atlassian.net/browse/${issueId}) – ${issue.fields.summary}\n`;
       const issueStatus = issue.fields.status.name;
 
       console.log(`Issue current status: ${issueStatus}`);
