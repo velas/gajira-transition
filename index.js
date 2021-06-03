@@ -35,7 +35,7 @@ async function exec () {
 
 function parseArgs () {
   return {
-    issue: core.getInput('issuesIDs'),
+    issuesIDs: core.getInput('issuesIDs'),
   }
 }
 
