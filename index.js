@@ -43,7 +43,7 @@ function parseArgs () {
   }
 
   return {
-    issue: core.getInput('issue'),
+    issue: core.getInput('issuesIDs'),
     transition,
     transitionId,
   }
