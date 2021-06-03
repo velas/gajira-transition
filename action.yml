@@ -4,15 +4,9 @@ branding:
   icon: 'chevron-right'
   color: 'blue'
 inputs:
-  issue:
+  issuesIDs:
     description: Key of the issue to be transitioned
     required: true
-  transition:
-    description: The transition to apply to the issue, e.g. 'In Progress'
-    required: false
-  transitionId:
-    description: The id of a transition to apply to the issue
-    required: false
 outputs:
   summary:
     description: "issues summaries"
