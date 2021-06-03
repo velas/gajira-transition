@@ -16,7 +16,7 @@ module.exports = class {
 
   async execute () {
     const { argv } = this;
-    console.log(`argv: ${argv}`);
+    console.log(`argv: ${JSON.stringify(argv, null, 2)}`);
     const issuesIDs = argv.issuesIDs.split(', ');
     let issuesSummaries = '';
     for (let i = 0; i < issuesIDs.length; i++) {
