@@ -20,10 +20,8 @@ module.exports = class {
     const issuesIDs = argv.issuesIDs.split(', ');
     let issuesSummaries = '';
     for (let i = 0; i < issuesIDs.length; i++) {
-      let issueId = issuesIDs[i];
+      const issueId = issuesIDs[i];
       console.log(`Current issue ID: ${issueId}`);
-      issueId = makeProperIssueID(issueId);
-
       const issue = await this.Jira.getIssue(issueId);
       console.log(`Issue summary: ${issue.fields.summary}`);
       issuesSummaries += `[${issueId}](https://velasnetwork.atlassian.net/browse/${issueId}) – ${issue.fields.summary}\n`;
@@ -31,13 +29,4 @@ module.exports = class {
     core.setOutput('summary', issuesSummaries);
     return {}
   }
-}
-
-function makeProperIssueID(issue) {
-  let issueId = issue.toUpperCase();
-  issueId = issueId.replace(' ', '-');
-  if (!issueId.includes('VTX-')) {
-    issueId = 'VTX-' + issueId;
-  }
-  return issueId;
 }
